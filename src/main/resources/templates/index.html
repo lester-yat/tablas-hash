@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Información</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Información</h1>
+        <!-- Tabla de Ciudades -->
+        <h2>Ciudades</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Latitud</th>
+                    <th>Longitud</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="city : ${cities}">
+                    <td th:text="${city.name}"></td>
+                    <td th:text="${city.latitude}"></td>
+                    <td th:text="${city.longitude}"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Tabla de Países -->
+        <h2>Países</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Correlativo</th>
+                    <th>Tipo</th>
+                    <th>Nombre</th>
+                    <th>Código ISO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="country : ${countries}">
+                    <td><!-- Correlativo --></td>
+                    <td>País</td>
+                    <td th:text="${country.name}"></td>
+                    <td th:text="${country.isoCode}"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Tabla de Regiones -->
+        <h2>Regiones</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>País</th>
+                    <!-- Agrega más encabezados según tus necesidades -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Itera sobre la lista de regiones -->
+            </tbody>
+        </table>
+        
+        <!-- Tabla de Estados -->
+        <h2>Estados</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>País</th>
+                    <!-- Agrega más encabezados según tus necesidades -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Itera sobre la lista de estados -->
+            </tbody>
+        </table>
+        
+        <!-- Tabla de Subregiones -->
+        <h2>Subregiones</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Región</th>
+                    <th>País</th>
+                    <!-- Agrega más encabezados según tus necesidades -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Itera sobre la lista de subregiones -->
+            </tbody>
+        </table>
+        
+        <!-- Paginador -->
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+            <!-- Agrega más botones de paginación según sea necesario -->
+            <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+        </ul>
+        
+        <!-- Formulario de búsqueda -->
+        <h2>Buscar Ciudad por Nombre</h2>
+        <form th:action="@{/search}" method="get">
+            <input type="text" name="cityName" placeholder="Nombre de la Ciudad">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+    </div>
+</body>
+</html>
