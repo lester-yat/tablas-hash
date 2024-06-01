@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.lester.geohash.entity.Subregion;
 import com.lester.geohash.repository.SubregionRepository;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SubregionService {
@@ -19,5 +19,9 @@ public class SubregionService {
     
     public Subregion findById(Long id) {
         return subregionRepository.findById(id).orElse(null);
+    }
+
+    public List<Subregion> searchByName(String subregionName) {
+        return subregionRepository.findByNameContainingIgnoreCase(subregionName);
     }
 }

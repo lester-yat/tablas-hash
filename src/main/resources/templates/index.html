@@ -9,105 +9,239 @@
 <body>
     <div class="container">
         <h1>Lista de Información</h1>
+
+        <!-- Formulario de búsqueda -->
+        <form action="/search" method="get">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2" name="searchTerm">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
+                </div>
+            </div>
+        </form>
+
         <!-- Tabla de Ciudades -->
         <h2>Ciudades</h2>
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Nombre</th>
-                    <th>Latitud</th>
-                    <th>Longitud</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="city : ${cities}">
+                    <td th:text="${city.id}"></td>
                     <td th:text="${city.name}"></td>
-                    <td th:text="${city.latitude}"></td>
-                    <td th:text="${city.longitude}"></td>
                 </tr>
             </tbody>
         </table>
-        
+
+        <div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <!-- Botones para paginar las ciudades -->
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{/cities(pageNo=0)}" aria-label="First">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentCityPage == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{/cities(pageNo=${currentCityPage - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <th:block th:if="${currentCityPage > 2}">
+                        <li class="page-item"><a class="page-link" th:href="@{/cities(pageNo=0)}">1</a></li>
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    </th:block>
+                    <th:block th:if="${currentCityPage > 1}">
+                        <li class="page-item"><a class="page-link" th:href="@{/cities(pageNo=${currentCityPage - 2})}" th:text="${currentCityPage - 1}"></a></li>
+                    </th:block>
+                    <li class="page-item active"><span class="page-link" th:text="${currentCityPage + 1}"></span></li>
+                    <th:block th:if="${currentCityPage < totalCityPages - 2}">
+                        <li class="page-item"><a class="page-link" th:href="@{/cities(pageNo=${currentCityPage + 2})}" th:text="${currentCityPage + 3}"></a></li>
+                    </th:block>
+                    <th:block th:if="${currentCityPage < totalCityPages - 3}">
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                        <li class="page-item"><a class="page-link" th:href="@{/cities(pageNo=${totalCityPages - 1})}" th:text="${totalCityPages}"></a></li>
+                    </th:block>
+                    <li class="page-item" th:classappend="${currentCityPage + 1 == totalCityPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/cities(pageNo=${currentCityPage + 1})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{/cities(pageNo=${totalCityPages - 1})}" aria-label="Last">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>        
+
         <!-- Tabla de Países -->
         <h2>Países</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="country : ${countries}">
+                    <td th:text="${country.id}"></td>
+                    <td th:text="${country.name}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <!-- Botones para paginar los países -->
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{/countries(pageNo=0)}" aria-label="First">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentCountryPage == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{/countries(pageNo=${currentCountryPage - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <th:block th:if="${currentCountryPage > 2}">
+                        <li class="page-item"><a class="page-link" th:href="@{/countries(pageNo=0)}">1</a></li>
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    </th:block>
+                    <th:block th:if="${currentCountryPage > 1}">
+                        <li class="page-item"><a class="page-link" th:href="@{/countries(pageNo=${currentCountryPage - 2})}"
+                                th:text="${currentCountryPage - 1}"></a></li>
+                    </th:block>
+                    <li class="page-item active"><span class="page-link" th:text="${currentCountryPage + 1}"></span></li>
+                    <th:block th:if="${currentCountryPage < totalCountryPages - 2}">
+                        <li class="page-item"><a class="page-link" th:href="@{/countries(pageNo=${currentCountryPage + 2})}"
+                                th:text="${currentCountryPage + 3}"></a></li>
+                    </th:block>
+                    <th:block th:if="${currentCountryPage < totalCountryPages - 3}">
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                        <li class="page-item"><a class="page-link"
+                                th:href="@{/countries(pageNo=${totalCountryPages - 1})}" th:text="${totalCountryPages}"></a></li>
+                    </th:block>
+                    <li class="page-item" th:classappend="${currentCountryPage + 1 == totalCountryPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/countries(pageNo=${currentCountryPage + 1})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{/countries(pageNo=${totalCountryPages - 1})}" aria-label="Last">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Tabla de Regiones -->
+        <h2>Regiones</h2>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Correlativo</th>
                     <th>Tipo</th>
                     <th>Nombre</th>
-                    <th>Código ISO</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="country : ${countries}">
-                    <td><!-- Correlativo --></td>
-                    <td>País</td>
-                    <td th:text="${country.name}"></td>
-                    <td th:text="${country.isoCode}"></td>
+                <!-- Itera sobre los registros de las regiones -->
+                <tr th:each="region, i : ${regions}">
+                    <td th:text="${i.index + 1}"></td>
+                    <td>Region</td>
+                    <td th:text="${region.name}"></td>
                 </tr>
             </tbody>
         </table>
-        
-        <!-- Tabla de Regiones -->
-        <h2>Regiones</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>País</th>
-                    <!-- Agrega más encabezados según tus necesidades -->
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Itera sobre la lista de regiones -->
-            </tbody>
-        </table>
-        
+
         <!-- Tabla de Estados -->
         <h2>Estados</h2>
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Nombre</th>
-                    <th>País</th>
-                    <!-- Agrega más encabezados según tus necesidades -->
                 </tr>
             </thead>
             <tbody>
-                <!-- Itera sobre la lista de estados -->
+                <tr th:each="state : ${states}">
+                    <td th:text="${state.id}"></td>
+                    <td th:text="${state.name}"></td>
+                </tr>
             </tbody>
         </table>
-        
+
+        <div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <!-- Botones para paginar los estados -->
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{/state(pageNo=0)}" aria-label="First">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentStatePage == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{/state(pageNo=${currentStatePage - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <th:block th:if="${currentStatePage > 2}">
+                        <li class="page-item"><a class="page-link" th:href="@{/state(pageNo=0)}">1</a></li>
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    </th:block>
+                    <th:block th:if="${currentStatePage > 1}">
+                        <li class="page-item"><a class="page-link" th:href="@{/state(pageNo=${currentStatePage - 2})}" th:text="${currentStatePage - 1}"></a></li>
+                    </th:block>
+                    <li class="page-item active"><span class="page-link" th:text="${currentStatePage + 1}"></span></li>
+                    <th:block th:if="${currentStatePage < totalStatePages - 2}">
+                        <li class="page-item"><a class="page-link" th:href="@{/state(pageNo=${currentStatePage + 2})}" th:text="${currentStatePage + 3}"></a></li>
+                    </th:block>
+                    <th:block th:if="${currentStatePage < totalStatePages - 3}">
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                        <li class="page-item"><a class="page-link" th:href="@{/state(pageNo=${totalStatePages - 1})}" th:text="${totalStatePages}"></a></li>
+                    </th:block>
+                    <li class="page-item" th:classappend="${currentStatePage + 1 == totalStatePages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/state(pageNo=${currentStatePage + 1})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{/state(pageNo=${totalStatePages - 1})}" aria-label="Last">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
         <!-- Tabla de Subregiones -->
         <h2>Subregiones</h2>
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th>Correlativo</th>
+                    <th>Tipo</th>
                     <th>Nombre</th>
-                    <th>Región</th>
-                    <th>País</th>
-                    <!-- Agrega más encabezados según tus necesidades -->
                 </tr>
             </thead>
             <tbody>
-                <!-- Itera sobre la lista de subregiones -->
+                <!-- Itera sobre los registros de las subregiones -->
+                <tr th:each="subregion, i : ${subregions}">
+                    <td th:text="${i.index + 1}"></td>
+                    <td>Subregión</td>
+                    <td th:text="${subregion.name}"></td>
+                </tr>
             </tbody>
         </table>
-        
-        <!-- Paginador -->
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-            <!-- Agrega más botones de paginación según sea necesario -->
-            <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-        </ul>
-        
-        <!-- Formulario de búsqueda -->
-        <h2>Buscar Ciudad por Nombre</h2>
-        <form th:action="@{/search}" method="get">
-            <input type="text" name="cityName" placeholder="Nombre de la Ciudad">
-            <button type="submit" class="btn btn-primary">Buscar</button>
-        </form>
     </div>
 </body>
 </html>

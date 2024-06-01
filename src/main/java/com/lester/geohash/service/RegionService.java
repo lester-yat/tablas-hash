@@ -20,4 +20,8 @@ public class RegionService {
     public Region findById(Long id) {
         return regionRepository.findById(id).orElse(null);
     }
+
+    public List<Region> searchByName(String regionName) {
+        return regionRepository.findByNameContainingIgnoreCase(regionName);
+    }
 }
